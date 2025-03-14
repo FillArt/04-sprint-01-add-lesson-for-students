@@ -6,3 +6,36 @@ export const instance = axios.create({
     'x-auth-skip': true,
   },
 })
+
+export type DeckPagination = {
+  currentPage: number
+  itemsPerPage: number
+  totalItems: number
+  totalPages: number
+}
+export type DeckItem = {
+  "isFavorite": boolean,
+  "author": {
+    "id": string,
+    "name": string
+  },
+  "id": string,
+  "userId": string,
+  "name": string,
+  "isPrivate": true,
+  "cover": string,
+  "created": string,
+  "updated": string,
+  "cardsCount": number
+}
+
+export type DeckResponse = {
+  items: DeckItem[]
+  pagination: DeckPagination
+}
+
+export const decksAPI = {
+  getDecks() {
+    return instance.get<DeckResponse>('/v2/decks')
+  }
+}
