@@ -13,7 +13,7 @@ export type DeckPagination = {
   totalItems: number
   totalPages: number
 }
-export type DeckItem = {
+export type DeckItemType = {
   "isFavorite": boolean,
   "author": {
     "id": string,
@@ -28,9 +28,8 @@ export type DeckItem = {
   "updated": string,
   "cardsCount": number
 }
-
 export type DeckResponse = {
-  items: DeckItem[]
+  items: DeckItemType[]
   pagination: DeckPagination
 }
 
