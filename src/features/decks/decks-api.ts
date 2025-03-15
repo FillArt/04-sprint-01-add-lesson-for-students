@@ -14,27 +14,45 @@ export type DeckPagination = {
   totalPages: number
 }
 export type DeckItemType = {
-  "isFavorite": boolean,
-  "author": {
-    "id": string,
-    "name": string
+  isFavorite?: boolean,
+  author: {
+    id: string,
+    name: string
   },
-  "id": string,
-  "userId": string,
-  "name": string,
-  "isPrivate": true,
-  "cover": string,
-  "created": string,
-  "updated": string,
-  "cardsCount": number
+  id: string,
+  userId: string,
+  name: string,
+  isPrivate: true,
+  cover: string,
+  created: string,
+  updated: string,
+  cardsCount: number
 }
 export type DeckResponse = {
   items: DeckItemType[]
   pagination: DeckPagination
 }
 
+export type DeckCreateResponse = {
+  id: string,
+  userId: string,
+  name: string,
+  isPrivate: boolean,
+  cover: string,
+  created: string,
+  updated: string,
+  "cardsCount": number
+}
+
 export const decksAPI = {
   getDecks() {
     return instance.get<DeckResponse>('/v2/decks')
+  },
+
+  createDeck(name: string) {
+    return instance.post<DeckItemType>('/v1/decks', { name })
   }
+
+
+
 }

@@ -16,6 +16,8 @@ export const decksReducer = (state: DecksState = initialState, action: DecksActi
   switch (action.type) {
     case 'SET-DECKS':
       return {...state, decks: action.payload.decks}
+    case 'ADD-DECK':
+      return  {...state, decks: [...state.decks, action.payload.deck] }
     default:
       return state
   }
@@ -29,6 +31,13 @@ export const setDecksAC = (decks: DeckItemType[]) => ({
   }
 } as const)
 
+export const addDeckAC = (deck: DeckItemType) => ({
+  type: 'ADD-DECK',
+  payload: {
+    deck,
+  }
+})
+
 
 export const fetchDecksTC = () => async (dispatch: ThunkDispatch<AppRootState, unknown, AnyAction>) => {
   try {
@@ -39,8 +48,18 @@ export const fetchDecksTC = () => async (dispatch: ThunkDispatch<AppRootState, u
   }
 }
 
+export const createDecksTC = (name: string) => async (dispatch: ThunkDispatch<AppRootState, unknown, AnyAction>) => {
+  try {
+    const res = await decksAPI.createDeck(name)
+    dispatch(addDeckAC(res.data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 
 type setDecksType = ReturnType<typeof setDecksAC>
+type addDeckType = ReturnType<typeof addDeckAC>
 
 
-type DecksActions = setDecksType
+type DecksActions = setDecksType | addDeckType

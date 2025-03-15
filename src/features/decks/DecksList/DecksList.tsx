@@ -7,12 +7,12 @@ import { DeckItem } from './DeckItem/DeckItem.tsx'
 
 export const DecksList = () => {
   const dispatch = useAppDispatch()
-
+  const decks: DeckItemType[] | [] = useAppSelector((state: AppRootState) => state.decksReducer.decks)
   useEffect(() => {
     dispatch(fetchDecksTC())
-  }, [dispatch])
+  }, [dispatch, decks])
 
-  const decks: DeckItemType[] | [] = useAppSelector((state: AppRootState) => state.decksReducer.decks)
+
 
   return <ul className={s.list}>{decks?.map((item) => <DeckItem key={item.id} deck={item} />)}</ul>
 }
