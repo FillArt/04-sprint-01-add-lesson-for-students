@@ -1,4 +1,7 @@
-import { DeckItemType } from './decks-api.ts'
+import { DeckItemType, decksAPI } from './decks-api.ts'
+import { ThunkDispatch } from 'redux-thunk'
+import { AppRootState } from '../../app/store.ts'
+import { AnyAction } from 'redux'
 
 const initialState = {
   decks: [] as DeckItemType[], // todo: add type
@@ -25,6 +28,16 @@ export const setDecksAC = (decks: DeckItemType[]) => ({
     decks,
   }
 } as const)
+
+
+export const fetchDecksTC = () => async (dispatch: ThunkDispatch<AppRootState, unknown, AnyAction>) => {
+  try {
+    const res = await decksAPI.getDecks()
+    dispatch(setDecksAC(res.data.items))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 
 type setDecksType = ReturnType<typeof setDecksAC>
